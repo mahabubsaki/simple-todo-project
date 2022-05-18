@@ -1,14 +1,16 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { toast } from 'react-toastify';
 import auth from '../firebase.init';
 import Loading from './Loading';
 
 const AddTask = () => {
+    const [adding, setAdding] = useState(false)
     const [user, loading] = useAuthState(auth)
     const handleTaskSubmit = async (e) => {
         e.preventDefault()
+        setAdding(true)
         const task = {
             name: e.target.task.value,
             email: user?.email,
@@ -27,6 +29,7 @@ const AddTask = () => {
                     draggable: true,
                     progress: undefined,
                 })
+                setAdding(false)
             }
             else {
                 toast.error('Something went wrong, Please try again', {
@@ -38,6 +41,7 @@ const AddTask = () => {
                     draggable: true,
                     progress: undefined,
                 })
+                setAdding(false)
             }
         }
         catch (e) {
@@ -51,6 +55,7 @@ const AddTask = () => {
                     draggable: true,
                     progress: undefined,
                 })
+            setAdding(false)
         }
         e.target.reset()
     }
@@ -70,6 +75,13 @@ const AddTask = () => {
                         <label htmlFor="description">Task Description</label>
                         <textarea type="text" className="form-control" id="description" placeholder="Task Description" name='description' required></textarea>
                     </div>
+                    {adding &&
+                        <div className="d-flex justify-content-center my-3">
+                            <div className="spinner-grow text-success" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    }
                     <button type="submit" className="btn btn-primary d-block mx-auto">Add Task</button>
                 </form>
             </div>

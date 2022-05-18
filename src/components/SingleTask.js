@@ -99,8 +99,8 @@ const SingleTask = ({ task, no, refetch }) => {
                         </div>
                         <h5 className={`card-text ${complete === 'Not Completed' ? 'text-danger' : 'text-success'}`}>Status : {complete}</h5>
                     </div>
-                    <div className="d-flex justify-content-between">
-                        <button className="btn btn-success" onClick={() => handleComplete(_id)}>Set as Complete</button>
+                    <div className="d-flex flex-column">
+                        {complete === "Not Completed" && <button className="btn btn-success mb-2" onClick={() => handleComplete(_id)}>Set as Complete</button>}
                         <button className="btn btn-danger" onClick={() => handleDelete(_id)}>Delete Task</button>
                     </div>
                 </div>
